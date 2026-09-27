@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>TravelFund - Travel Planner</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                T
+            </div>
+
+            <div>
+                <h2>TravelFund</h2>
+                <span>Travel Planner</span>
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="#dashboard" class="nav-link active">
+                Dashboard
+            </a>
+
+            <a href="#transaksi" class="nav-link">
+                Transaksi DP
+            </a>
+
+            <a href="#master" class="nav-link">
+                Master Data
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                Sistem Online
+
+            </div>
+
+            <small>
+                TravelFund v1.0
+            </small>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <div>
+
+                <p class="small-title">
+                    FINANCE WORKSPACE
+                </p>
+
+                <h1 id="dashboard">
+                    TravelFund
+                </h1>
+
+                <p class="subtitle">
+                    Kelola deposit pelanggan dan pembayaran uang muka vendor.
+                </p>
+
+            </div>
+
+
+            <button
+                class="btn-primary"
+                onclick="scrollToTransaction()"
+            >
+
+                + Catat Transaksi
+
+            </button>
+
+        </header>
+
+
+
+        <!-- STATISTICS -->
+
+        <section class="stats">
+
+            <div class="stat-card blue">
+
+                <div class="stat-icon">
+                    ↓
+                </div>
+
+                <div>
+
+                    <p>
+                        DP Pelanggan
+                    </p>
+
+                    <h3 id="totalCustomerDP">
+                        Rp0
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card purple">
+
+                <div class="stat-icon">
+                    ↑
+                </div>
+
+                <div>
+
+                    <p>
+                        DP Vendor
+                    </p>
+
+                    <h3 id="totalVendorDP">
+                        Rp0
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card green">
+
+                <div class="stat-icon">
+                    =
+                </div>
+
+                <div>
+
+                    <p>
+                        Saldo Bersih
+                    </p>
+
+                    <h3 id="saldoBersih">
+                        Rp0
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card orange">
+
+                <div class="stat-icon">
+                    #
+                </div>
+
+                <div>
+
+                    <p>
+                        Transaksi
+                    </p>
+
+                    <h3 id="totalTransaksi">
+                        0
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- FORM TRANSAKSI -->
+
+        <section
+            class="content-grid"
+            id="transaksi"
+        >
+
+
+            <div class="card form-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <p class="small-title">
+                            INPUT TRANSAKSI
+                        </p>
+
+                        <h2 id="formTitle">
+                            Catat DP Pelanggan
+                        </h2>
+
+                    </div>
+
+
+                    <div class="type-switch">
+
+                        <button
+                            id="btnCustomer"
+                            class="switch active"
+                            onclick="ubahJenis('DP_PELANGGAN')"
+                        >
+                            Pelanggan
+                        </button>
+
+                        <button
+                            id="btnVendor"
+                            class="switch"
+                            onclick="ubahJenis('DP_VENDOR')"
+                        >
+                            Vendor
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <form id="transactionForm">
+
+
+                    <input
+                        type="hidden"
+                        id="jenis"
+                        value="DP_PELANGGAN"
+                    >
+
+
+                    <div class="form-grid">
+
+
+                        <!-- TANGGAL -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Tanggal
+                            </label>
+
+                            <input
+                                type="date"
+                                id="tanggal"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- PELANGGAN -->
+
+                        <div
+                            class="form-group"
+                            id="customerGroup"
+                        >
+
+                            <label>
+                                Pelanggan
+                            </label>
+
+                            <select id="pelanggan_id">
+
+                                <option value="">
+                                    Pilih pelanggan...
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- VENDOR -->
+
+                        <div
+                            class="form-group hidden"
+                            id="vendorGroup"
+                        >
+
+                            <label>
+                                Vendor
+                            </label>
+
+                            <select id="vendor_id">
+
+                                <option value="">
+                                    Pilih vendor...
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- NOMINAL -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Nominal DP
+                            </label>
+
+                            <input
+                                type="number"
+                                id="nominal"
+                                placeholder="2500000"
+                                min="1"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- METODE -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Metode Pembayaran
+                            </label>
+
+                            <select id="metode_pembayaran">
+
+                                <option>
+                                    Transfer
+                                </option>
+
+                                <option>
+                                    Cash
+                                </option>
+
+                                <option>
+                                    QRIS
+                                </option>
+
+                                <option>
+                                    Kartu
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- STATUS -->
+
+                        <div class="form-group">
+
+                            <label>
+                                Status
+                            </label>
+
+                            <select id="status">
+
+                                <option>
+                                    Diterima
+                                </option>
+
+                                <option>
+                                    Menunggu
+                                </option>
+
+                                <option>
+                                    Dibatalkan
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- KETERANGAN -->
+
+                        <div class="form-group full">
+
+                            <label>
+                                Keterangan
+                            </label>
+
+                            <textarea
+                                id="keterangan"
+                                placeholder="Contoh: DP paket wisata Jogja..."
+                            ></textarea>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="btn-primary save-button"
+                    >
+
+                        Simpan Transaksi →
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- MASTER DATA -->
+
+            <div
+                class="card master-card"
+                id="master"
+            >
+
+                <div class="card-header">
+
+                    <div>
+
+                        <p class="small-title">
+                            MASTER DATA
+                        </p>
+
+                        <h2>
+                            Data Pendukung
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="master-item">
+
+                    <div class="master-icon customer">
+                        P
+                    </div>
+
+                    <div class="master-info">
+
+                        <strong>
+                            Pelanggan
+                        </strong>
+
+                        <span id="jumlahPelanggan">
+                            0 data
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        class="btn-small"
+                        onclick="tambahPelanggan()"
+                    >
+                        + Tambah
+                    </button>
+
+                </div>
+
+
+
+                <div class="master-item">
+
+                    <div class="master-icon vendor">
+                        V
+                    </div>
+
+                    <div class="master-info">
+
+                        <strong>
+                            Vendor
+                        </strong>
+
+                        <span id="jumlahVendor">
+                            0 data
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        class="btn-small"
+                        onclick="tambahVendor()"
+                    >
+                        + Tambah
+                    </button>
+
+                </div>
+
+
+
+                <div class="tip">
+
+                    <strong>
+                        Tips
+                    </strong>
+
+                    <p>
+                        Gunakan kode unik seperti
+                        CUST-001 dan VEND-001
+                        agar data mudah dilacak.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- RIWAYAT TRANSAKSI -->
+
+        <section class="card table-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <p class="small-title">
+                        LEDGER
+                    </p>
+
+                    <h2>
+                        Riwayat Transaksi
+                    </h2>
+
+                </div>
+
+
+                <div class="table-tools">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Cari transaksi..."
+                    >
+
+                    <button
+                        class="btn-small"
+                        onclick="exportCSV()"
+                    >
+                        ↓ CSV
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="filters">
+
+                <button
+                    class="filter active"
+                    onclick="filterTransaksi('ALL', this)"
+                >
+                    Semua
+                </button>
+
+                <button
+                    class="filter"
+                    onclick="filterTransaksi('DP_PELANGGAN', this)"
+                >
+                    DP Pelanggan
+                </button>
+
+                <button
+                    class="filter"
+                    onclick="filterTransaksi('DP_VENDOR', this)"
+                >
+                    DP Vendor
+                </button>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Transaksi
+                            </th>
+
+                            <th>
+                                Jenis
+                            </th>
+
+                            <th>
+                                Pihak
+                            </th>
+
+                            <th>
+                                Nominal
+                            </th>
+
+                            <th>
+                                Metode
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Aksi
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="transactionTable">
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="empty"
+                            >
+                                Memuat data...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <footer>
+
+            © 2026 TravelFund
+            •
+            Sistem Deposit Travel Planner
+
+        </footer>
+
+
+    </main>
+
+
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- JAVASCRIPT -->
+
+    <script src="script.js"></script>
+
+
+</body>
+
+</html>
